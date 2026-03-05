@@ -4,9 +4,11 @@ on:
     push:
         branches:
             - main
+            - lab11task4-15
     pull_request:
         branches:
             - main
+            - lab11task4-15
 
 jobs:
     build:
@@ -30,7 +32,7 @@ jobs:
                 with:
                     context: .
                     push: true
-                    tags: ${{ secrets.DOCKER_HUB_USERNAME }}/234-deploylab-backend:latest
+                    tags: ${{ secrets.DOCKER_HUB_USERNAME }}/234-deploylab-backend-v2:latest
 
             -   name: Copy file via ssh password
                 uses: appleboy/scp-action@v1
@@ -39,7 +41,7 @@ jobs:
                     username: ${{ secrets.HOST_USER_NAME }}
                     key: ${{ secrets.HOST_SSH_PRIVATE_KEY }}
                     port: 22
-                    source: "docker-compose.yml"
+                    source: "docker-compose.yml,docker-compose-v2.yml"
                     target: "/home/ubuntu/backend"
 
             -   name: Docker Compose
@@ -55,7 +57,9 @@ jobs:
                         docker compose down
                         docker compose pull
                         docker compose up -d
-                        rm -rf /home/ubuntu/backend
+                        docker compose -f docker-compose-v2.yml pull
+                        docker compose -f docker-compose-v2.yml up -d
+                        
                 
 
         

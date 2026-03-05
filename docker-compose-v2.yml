@@ -1,0 +1,17 @@
+services:
+  backend-v2:
+    image: collapse7/234-deploylab-backend-v2:latest
+    pull_policy: always
+    ports:
+    - "8084:8080"
+    restart: unless-stopped
+
+  frontend-v2:
+    image: collapse7/234-deploylab-frontend:latest 
+    pull_policy: always
+    ports:
+      - "8083:80" 
+    environment:
+      - VITE_GRAPHQL_URI=http://43.208.224.38:8084/graphql
+      - VITE_SERVER_URI=http://43.208.224.38:8084
+    restart: unless-stopped
