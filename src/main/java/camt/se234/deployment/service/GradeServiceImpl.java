@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 public class GradeServiceImpl implements GradeService {
     @Override
     public String getGrade(double score) {
+        // I have updated the different criteria for 4.15 task.
         if (score > 80) {
             return "A";
         }
